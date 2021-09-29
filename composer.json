@@ -1,0 +1,17 @@
+{
+    "name": "acs/ping-score",
+    "description": "gestion des score de tennis de table",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Acs\\PingScore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mercier Laurent",
+            "email": "mercier_laurent@live.fr"
+        }
+    ],
+    "require": {}
+}
