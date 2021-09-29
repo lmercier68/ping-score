@@ -20,10 +20,12 @@ class Score{
     {
         $this->score[$player->getUID()] +=1;
     }
+
     public function resetScore()
     {
         $this->score =  array();
     }
+    
     public function getScores(){
         return $this->score;
     }

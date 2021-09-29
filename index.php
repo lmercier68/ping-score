@@ -11,10 +11,7 @@ while(!$game->getGameOver()){
     randSet($game, $player1, $player2);
 }
 
-
-
-  function randSet(Game $game,Player $player1, Player $player2){
-
+function randSet(Game $game,Player $player1, Player $player2){
        $hazard = mt_rand(0,1);
        if($hazard){
            $game->incrementScorePlayer($player1);

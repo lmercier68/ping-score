@@ -4,9 +4,9 @@ namespace Acs\PingScore\class;
 class Game{
     
     protected int $nombreSet = 0;
-    protected int $actual_game =0;
+    protected int $actualSet =0;
     protected array $players;
-    protected GameSet $gameSet;
+    protected array $gameSets;
     protected bool $gameOver = false;
 
     public function __construct(Player $player1, Player $player2, int $nb_set)
@@ -14,8 +14,7 @@ class Game{
         $this->players[] = $player1;
         $this->players[] = $player2;
         $this->nombreSet = $nb_set;       
-        $this->actualSet = 1;
-        $this->gameSet = New GameSet( $player1, $player2, $this->actualSet);
+        $this->gameSets[]= New GameSet( $player1, $player2, $this->actualSet);
     } 
     /**
     * increment les score du joueur passé en paramètre
@@ -25,17 +24,16 @@ class Game{
     */
     public function incrementScorePlayer(Player $player) 
     {
-        echo ('point marqué :' . $this->gameSet->getScore()->getScores()[$this->players[0]->GetUID()]." - ".$this->gameSet->getScore()->getScores()[$this->players[1]->GetUID()]."<br>");
+        echo ('point marqué :' . $this->gameSets[$this->actualSet]->getScore()->getScores()[$this->players[0]->GetUID()]." - ".$this->gameSets[$this->actualSet]->getScore()->getScores()[$this->players[1]->GetUID()]."<br>");
         //incrementer le score du joueur
-        $this->gameSet->GetScore()->incrementScorePlayer($player);
+        $this->gameSets[$this->actualSet]->GetScore()->incrementScorePlayer($player);
         //verifier si un joueur a remporté le set
-                //verifier si un joueur a remporté le set
-                if($this->gameSet->checkSetWinner($player)){
-                    $this->actualSet += 1;
-                    $this->gameSet = new GameSet($this->players[0], $this->players[1],$this->actualSet);
-                    $player->addWonSet();
-                    $this->checkEndGame($player);
-                }
+        if($this->gameSets[$this->actualSet]->checkSetWinner($player)){  
+            $this->gameSets[] = new GameSet($this->players[0], $this->players[1],$this->actualSet);
+            $this->actualSet += 1;
+            $player->addWonSet();
+            $this->checkEndGame($player);
+        }
     }
 
     public function checkEndGame(Player $player)
@@ -45,8 +43,6 @@ class Game{
             $this->gameOver =true;
             return true;
         }
-
-
         return false;
     }
 

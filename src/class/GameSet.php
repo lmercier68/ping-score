@@ -7,6 +7,9 @@ use Acs\PingScore\class\Player;
 
 class GameSet
 {
+    public const MIN_POINT_TO_WIN_SET = 11;
+    public const DIFFERENCE_TO_WIN = 2;
+
     protected int $gameSetNumber = 0;
     protected Game $game;
     protected array $players;
@@ -27,13 +30,11 @@ class GameSet
     public function checkSetWinner(Player $player) : bool
     {
         $scores =$this->score->getScores();
-
-        if($scores[$player->GetUID()] >= 11 )
+        if($scores[$player->GetUID()] >=     $this->MIN_POINT_TO_WIN_SET )
         {
             if($this->checkDifference($player->GetUID())){
                 $this->setWon[] = $player->GetUID();
                 echo ('set terminé avec les scores suivante: ' . $scores[$this->players[0]->GetUID()]." - ".$scores[$this->players[1]->GetUID()]."<br>");
-            
                 return true;
             }
             return false;
@@ -48,7 +49,12 @@ class GameSet
      */
     public function checkDifference() : bool
     {
-        if(abs( $this->score->getScores()[$this->players[0]->getUID()] - $this->score->getScores()[$this->players[1]->getUID()]) >= 2){
+        $difference8score = abs( 
+            $this->score->getScores()[$this->players[0]->getUID()]
+             -
+             $this->score->getScores()[$this->players[1]->getUID()]
+            );
+        if($difference8score >= self::DIFFERENCE_TO_WIN){
            return true;
         }
         return false;
