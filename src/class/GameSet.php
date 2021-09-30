@@ -7,8 +7,8 @@ use Acs\PingScore\class\Player;
 
 class GameSet
 {
-    public const MIN_POINT_TO_WIN_SET = 11;
-    public const DIFFERENCE_TO_WIN = 2;
+    const MIN_POINT_TO_WIN_SET = 11;
+    const DIFFERENCE_TO_WIN = 2;
 
     protected int $gameSetNumber = 0;
     protected Game $game;
@@ -17,10 +17,12 @@ class GameSet
     protected Score $score;
 
     public function __construct( 
+        Game $game,
         Player $player1,
         Player $player2,
         int $setNumber, 
     ){
+        $this->game = $game;
         $this->players[] = $player1;
         $this->players[] = $player2;
         $this->gameSetNumber = $setNumber;
@@ -30,7 +32,7 @@ class GameSet
     public function checkSetWinner(Player $player) : bool
     {
         $scores =$this->score->getScores();
-        if($scores[$player->GetUID()] >=     $this->MIN_POINT_TO_WIN_SET )
+        if($scores[$player->GetUID()] >=     self::MIN_POINT_TO_WIN_SET )
         {
             if($this->checkDifference($player->GetUID())){
                 $this->setWon[] = $player->GetUID();
@@ -59,8 +61,22 @@ class GameSet
         }
         return false;
     }
+
     public function getScore(){
         return $this->score;
+    }
+
+    public function incrementScorePlayer(Player $player)
+    {
+        $this->score->incrementScorePlayer($player);
+        if($this->checkSetWinner($player)){  
+            $this->game->SetGameSet = New GameSet($this->game, $this->players[0], $this->players[1], $this->game->getActualSet());
+            $this->game->AddGameSet($this); 
+            $player->addWonSet();
+            if(!$this->game->checkEndGame($player)){
+                $this->score->resetScore();
+            };
+        }
     }
 
 }
