@@ -24,7 +24,7 @@ class Game{
         if($this->gameSet->isFinish()){
             $this->gameSets[]=$this->gameSet; 
             $this->actualSet +=1;
-            $this->gameSet = New GameSet($this, $this->players[0], $this->players[1], $this->getActualSet());
+            $this->gameSet = New GameSet($this, $this->players[0], $this->players[1], $this->actualSet);
 
             if($player->getWonSet() >= $this->nombreSet){
                 echo 'Le joueur ' . $player->getName(). " remporte le match";
@@ -32,7 +32,6 @@ class Game{
                 return true;
             }
         }
-
         return false;
     }
 
@@ -40,36 +39,8 @@ class Game{
      * Region :getter/setter
      *
      */
-    public function addGameSet(GameSet $gameSet)
-    {
-        $this->gameSets[] = $gameSet;
-    }
-    public function getGameSets() :?array
-    {
-        return $this?->gameSets;
-    }
-    public function getScore(string $playerUID) : int
-    {
-        return $this->score[$playerUID];
-    }
-    public function getPlayer1()
-    {
-        return $this->player1;
-    }
-    public function getPlayer2(){
-        return $this->player2;
-    }
-    public function getActualSet(){
-        return $this->actualSet;
-    }
-    public function setGameSet(GameSet $gameSet){
-        $this->gameSet = $gameSet;
-    }
     public function getGameSet(){
         return $this->gameSet;
-    }
-    public function getNumberSet(){
-        return $this->nombre_set;
     }
     public function isGameOver(){
         return $this->gameOver;
