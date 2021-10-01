@@ -13,5 +13,7 @@
             "email": "mercier_laurent@live.fr"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/var-dumper": "^5.3"
+    }
 }

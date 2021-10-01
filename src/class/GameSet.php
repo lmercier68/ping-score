@@ -1,6 +1,7 @@
 <?php
 namespace Acs\PingScore\class;
 
+use dump;
 use Acs\PingScore\class\Game;
 use Acs\PingScore\class\Score;
 use Acs\PingScore\class\Player;
@@ -15,6 +16,7 @@ class GameSet
     protected array $players;
     protected array $setWon;
     protected Score $score;
+    protected bool $isFinish = false;
 
     public function __construct( 
         Game $game,
@@ -42,13 +44,8 @@ class GameSet
             return false;
         }
         return false;
-     
     }
-     /**
-     * Vérifie si l'écart de point entre player1 et player2 est supérieur ou égale à 2
-     *
-     * @return boolean -true si la différence de point est supérieure ou égale à 2
-     */
+
     public function checkDifference() : bool
     {
         $difference8score = abs( 
@@ -70,13 +67,13 @@ class GameSet
     {
         $this->score->incrementScorePlayer($player);
         if($this->checkSetWinner($player)){  
-            $this->game->SetGameSet = New GameSet($this->game, $this->players[0], $this->players[1], $this->game->getActualSet());
-            $this->game->AddGameSet($this); 
+            $this->isFinish = true;
             $player->addWonSet();
-            if(!$this->game->checkEndGame($player)){
-                $this->score->resetScore();
-            };
         }
+    }
+    public function isFinish()
+    {
+        return $this->isFinish;
     }
 
 }

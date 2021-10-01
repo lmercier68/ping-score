@@ -28,11 +28,6 @@ class Score{
         $this->scores[] = $this->score[$this->players[0]->GetUID()]." - ".$this->score[$this->players[1]->GetUID()];
     }
 
-    public function resetScore()
-    {
-        $this->score[$this->players[0]->getUID()] = 0;
-        $this->score[$this->players[1]->getUID()] = 0;
-    }
     public function getScoresHistory() : array
     {
         return $this->scores;
